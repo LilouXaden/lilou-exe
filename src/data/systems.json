@@ -1,0 +1,18 @@
+[
+  {
+    "id": "deep_plugging",
+    "name": "Deep Plugging Protocol",
+    "description": "Unlocks depth calibration and sub-silent audio response.",
+    "goal": 120,
+    "current": 97,
+    "image": "/systems/deep_plugging.png"
+  },
+  {
+    "id": "mirror_feedback",
+    "name": "Mirror Feedback Loop",
+    "description": "Unlocks dual POV loop with emotional feedback.",
+    "goal": 90,
+    "current": 22,
+    "image": "/systems/mirror_feedback.jpg"
+  }
+]

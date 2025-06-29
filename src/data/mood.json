@@ -1,0 +1,18 @@
+[
+  {
+    "label": "Submissive",
+    "image": "/assets/mood/submissive.jpg"
+  },
+  {
+    "label": "Silent",
+    "image": "/assets/mood/silent.jpg"
+  },
+  {
+    "label": "Excited",
+    "image": "/assets/mood/excited.jpg"
+  },
+  {
+    "label": "Shy",
+    "image": "/assets/mood/shy.jpg"
+  }
+]
