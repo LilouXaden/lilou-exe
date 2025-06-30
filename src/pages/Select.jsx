@@ -1,80 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import outfitData from "../data/outfit.json";
-import positionData from "../data/position.json";
-import accessoriesData from "../data/accessories.json";
-import moodData from "../data/mood.json";
+import videosData from "../data/videos.json";
 
-const ImageOption = ({ src, label, selected, onClick, disabled, fundingLink }) => (
-  <div
-    onClick={!disabled ? onClick : undefined}
-    className={`relative rounded-2xl overflow-hidden border-4 transition-all duration-200 shadow-xl cursor-pointer group ${
-      selected ? "border-cyan-400" : "border-transparent"
-    } ${disabled ? "opacity-40 cursor-not-allowed grayscale" : "hover:scale-105"}`}
+const TextOption = ({ label, selected, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`px-3 py-1 rounded-full border text-sm font-mono transition 
+      ${selected ? "bg-pink-500 text-black border-pink-400" : "border-gray-600 text-white hover:border-pink-400 hover:text-pink-300"}`}
   >
-    <img src={src} alt={label} className="w-full h-32 object-cover" />
-    <div className="text-center text-sm text-white bg-black bg-opacity-60 py-1">
-      {label}
-    </div>
-    {disabled && fundingLink && (
-      <>
-        <div className="absolute top-2 left-2 bg-purple-700 text-white text-[10px] px-2 py-1 rounded-full uppercase">
-          Coming Soon
-        </div>
-        <a
-          href={fundingLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute bottom-1 right-2 text-[10px] text-purple-300 underline opacity-80 hover:opacity-100"
-          onClick={(e) => e.stopPropagation()}
-        >
-          🎁 Help Fund
-        </a>
-      </>
-    )}
-  </div>
+    {label}
+  </button>
 );
 
-const SelectGroup = ({ title, options, selected, setSelected, multi = true, disableByFunding = false }) => {
-  const toggleSelection = (option) => {
-    if (multi) {
-      setSelected((prev) =>
-        prev.includes(option.label) ? prev.filter((o) => o !== option.label) : [...prev, option.label]
-      );
-    } else {
-      setSelected(option.label === selected ? "" : option.label);
-    }
-  };
-
-  return (
-    <div className="flex flex-col gap-4">
-      <h2 className="text-xl text-cyan-400 font-mono">{title}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {options.map((opt) => {
-          const isDisabled = disableByFunding && !!opt.fundingLink;
-          return (
-            <ImageOption
-              key={opt.label}
-              src={opt.image}
-              label={opt.label}
-              fundingLink={opt.fundingLink}
-              disabled={isDisabled}
-              selected={multi ? selected.includes(opt.label) : selected === opt.label}
-              onClick={() => toggleSelection(opt)}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-export default function SelectPage() {
+const SelectPage = () => {
   const navigate = useNavigate();
   const [outfit, setOutfit] = useState("");
+  const [previewOutfit, setPreviewOutfit] = useState(null); // May include non-selectable ones
   const [positions, setPositions] = useState([]);
   const [accessories, setAccessories] = useState([]);
   const [moods, setMoods] = useState([]);
+
+  const allPositions = Array.from(new Set(videosData.flatMap((v) => v.position)));
+  const allAccessories = Array.from(new Set(videosData.flatMap((v) => v.accessories)));
+  const allMoods = Array.from(new Set(videosData.flatMap((v) => v.mood)));
+
+  const toggle = (value, list, setter) => {
+    setter(list.includes(value) ? list.filter((v) => v !== value) : [...list, value]);
+  };
+
+  const handleOutfitClick = (o) => {
+    setPreviewOutfit(o); // Show preview regardless
+    if (!o.fundingLink) setOutfit(outfit === o.label ? "" : o.label);
+  };
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -86,45 +44,148 @@ export default function SelectPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-4 py-8 font-mono">
-      <h1 className="text-3xl text-center text-purple-500 mb-8">SELECT YOUR PROTOCOL</h1>
-      <div className="grid md:grid-cols-1 xl:grid-cols-1 gap-8">
-        <SelectGroup
-          title="Outfit"
-          options={outfitData}
-          selected={outfit}
-          setSelected={setOutfit}
-          multi={false}
-          disableByFunding={true}
-        />
-        <SelectGroup
-          title="Position"
-          options={positionData}
-          selected={positions}
-          setSelected={setPositions}
-        />
-        <SelectGroup
-          title="Accessories"
-          options={accessoriesData}
-          selected={accessories}
-          setSelected={setAccessories}
-          disableByFunding={true}
-        />
-        <SelectGroup
-          title="Mood"
-          options={moodData}
-          selected={moods}
-          setSelected={setMoods}
-        />
+    <div className="bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400" style={{paddingBottom:"60px"}}>
+
+    <div className="min-h-screen text-white font-mono pb-32 relative mx-auto" style={{ maxWidth: "800px" }}>
+
+      <h1 className="text-center text-3xl text-pink-300 my-6 tracking-wide" style={{margin:"40px 0 40px 0"}}>SELECT YOUR PROTOCOL</h1>
+
+      {/* OUTFIT SECTION */}
+      <div className="px-6 flex flex-col md:flex-row items-center justify-center gap-10 text-start">
+        {/* Outfit Menu */}
+        <div className="md:w-1/2 mb-8 md:mb-0">
+          <h2 className="text-xl text-pink-400 mb-3">Outfit</h2>
+          <div className="flex flex-wrap gap-2">
+            {outfitData.map((o) => {
+              const isDisabled = !!o.fundingLink;
+              const isActive = previewOutfit?.label === o.label;
+
+              return (
+                <button
+                  key={o.label}
+                  onClick={() => handleOutfitClick(o)}
+                  className={`px-4 py-2 rounded-full text-sm border transition relative ${
+                    outfit === o.label
+                      ? "bg-pink-500 text-black border-pink-400"
+                      : isDisabled
+                      ? "border-gray-700 text-gray-500 hover:border-purple-400 hover:text-purple-300"
+                      : "border-gray-700 text-white hover:border-pink-300 hover:text-pink-300"
+                  }`}
+                >
+                  {o.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* SCAN VISUAL */}
+        <div className="md:w-1/2 flex justify-center">
+          <div className="relative mb-6">
+            {previewOutfit ? (
+              <>
+                <img
+                  src={previewOutfit.image}
+                  alt={previewOutfit.label}
+                  className="w-64 h-64 object-cover rounded-full border-2 border-pink-500 shadow-[0_0_40px_#ff00cc66] animate-pulse"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-pink-500/10 to-transparent animate-scanline pointer-events-none " />
+                {previewOutfit.fundingLink && (
+                  <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center px-4 text-center rounded-full">
+                    <p className="text-sm text-purple-300 mb-2">
+                      <strong>{previewOutfit.label}</strong> incoming...
+                    </p>
+                    <a
+                      href={previewOutfit.fundingLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 underline hover:text-purple-300 text-xs"
+                    >
+                      🎁 Help unlock this outfit
+                    </a>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="w-64 h-64 rounded-full border-2 border-pink-500 bg-[#0f0f0f] flex items-center justify-center text-gray-500">
+                Awaiting scan...
+              </div>
+            )}
+          </div>
+        </div>
+
       </div>
-      <div className="text-center mt-12">
+
+      {/* OTHER FIELDS */}
+      <div className="px-6 mt-10 space-y-6">
+        <div>
+          <h2 className="text-xl text-pink-400 mb-2">Position</h2>
+          <div className="flex flex-wrap gap-2">
+            {allPositions.map((pos) => (
+              <TextOption
+                key={pos}
+                label={pos}
+                selected={positions.includes(pos)}
+                onClick={() => toggle(pos, positions, setPositions)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-xl text-pink-400 mb-2">Accessories</h2>
+          <div className="flex flex-wrap gap-2">
+            {allAccessories.map((acc) => (
+              <TextOption
+                key={acc}
+                label={acc}
+                selected={accessories.includes(acc)}
+                onClick={() => toggle(acc, accessories, setAccessories)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-xl text-pink-400 mb-2">Mood</h2>
+          <div className="flex flex-wrap gap-2">
+            {allMoods.map((mood) => (
+              <TextOption
+                key={mood}
+                label={mood}
+                selected={moods.includes(mood)}
+                onClick={() => toggle(mood, moods, setMoods)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* FIXED LAUNCH BUTTON */}
+      <div className="fixed bottom-0 left-0 w-full px-6 py-4 flex justify-center">
         <button
           onClick={handleSearch}
-          className="px-8 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-lg rounded-full shadow-lg transition"
+          className="text-pink-400 hover:text-white bg-pink-600/20 hover:bg-pink-600/40 px-4 py-2 rounded-full transition font-semibold"
         >
-          Launch Protocol
+          &gt; Launch
         </button>
       </div>
+
+    </div>
+
+      <style>
+        {`
+          @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+          }
+          .animate-scanline {
+            animation: scanline 2.5s linear infinite;
+          }
+        `}
+      </style>
     </div>
   );
-}
+};
+
+export default SelectPage;

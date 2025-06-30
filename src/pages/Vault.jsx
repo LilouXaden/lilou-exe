@@ -25,12 +25,12 @@ const Vault = () => {
   }, [searchParams])
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-12">
-      <h1 className="text-4xl font-mono text-center mb-10 text-cyan-300">/VAULT</h1>
+    <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400 px-6 py-12">
+      <h1 className="text-4xl font-mono text-center mb-10 text-pink-300">/VAULT</h1>
 
       {filteredVideos.length > 0 ? (
         <>
-          <h2 className="text-2xl font-mono text-cyan-200 mb-4">Matching Protocols</h2>
+          <h2 className="text-2xl font-mono text-pink-200 mb-4">Matching Protocols</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16">
             {filteredVideos.map((video) => (
               <a
@@ -38,14 +38,14 @@ const Vault = () => {
                 href={video.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-[#0f0f0f] border border-cyan-800 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition p-2"
+                className="bg-[#0f0f0f] border border-pink-800 rounded-2xl hover:scale-[1.02] hover:shadow-lg transition p-2"
               >
                 <img
                   src={video.thumb}
                   alt={video.title}
                   className="w-full h-48 object-cover rounded-xl mb-3"
                 />
-                <div className="font-mono text-sm text-cyan-100">{video.title}</div>
+                <div className="font-mono text-sm text-pink-100">{video.title}</div>
                 <div className="text-xs text-gray-400">
                   <span className="block">Outfit: {video.outfit}</span>
                   <span className="block">Position: {video.position.join(", ")}</span>
@@ -60,9 +60,9 @@ const Vault = () => {
         <div className="text-center text-gray-400 mb-16">No matching protocols found.</div>
       )}
 
-      <div className="border-t border-cyan-800 my-10"></div>
+      <div className="border-t border-pink-800 my-10"></div>
 
-      <h2 className="text-2xl font-mono text-cyan-200 mb-4">All Protocols</h2>
+      <h2 className="text-2xl font-mono text-pink-200 mb-4">All Protocols</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-16">
         {videosData.map((video) => (
           <a

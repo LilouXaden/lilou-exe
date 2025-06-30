@@ -77,7 +77,7 @@ const TerminalRedirect = () => {
       {/* Terminal Modal */}
       {showTerminal && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center px-4">
-          <div className="bg-[#0a0a0a] text-green-400 border border-cyan-500 rounded-xl w-full max-w-md p-6 font-mono text-sm shadow-xl relative">
+          <div className="bg-[#0a0a0a] text-gray-400 border border-cyan-500 rounded-xl w-full max-w-md p-6 font-mono text-sm shadow-xl relative">
             {/* Dismiss */}
             <button
               onClick={() => setShowTerminal(false)}

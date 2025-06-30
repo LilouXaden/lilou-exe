@@ -6,10 +6,21 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        mono: ['"Space Mono"', "monospace"],
+      animation: {
+        scanline: "scan 2.5s linear infinite",
+        "pulse-scan": "pulse 3s ease-in-out infinite"
       },
-    },
+      keyframes: {
+        scan: {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" }
+        },
+        pulse: {
+          "0%, 100%": { opacity: 0.9 },
+          "50%": { opacity: 0.4 }
+        }
+      }
+    }
   },
   plugins: [],
 };

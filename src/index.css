@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 /* Optionnel : fond noir dès le départ */
+body {
+  background-color: #000;
+}
 
 @keyframes fadeIn {
   to {
