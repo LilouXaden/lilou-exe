@@ -11,7 +11,7 @@ export default function Support() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-12 font-mono" style={{padding:"100px 20px 300px 20px"}}>
+    <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0010] to-black text-white px-6 py-12 font-mono" style={{padding:"100px 20px 300px 20px"}}>
       {/* HEADER */}
       <div className="text-center mb-12">
         <h1 className="text-4xl text-cyan-400 font-bold mb-4">/SUPPORT LILOU.EXE</h1>
@@ -21,7 +21,7 @@ export default function Support() {
           the capacities of Lilou.exe.
         </p>
         <a
-          href="https://ko-fi.com/lilou_exe"
+          href="https://ko-fi.com/lilouexe"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-3 rounded-full transition shadow-lg"

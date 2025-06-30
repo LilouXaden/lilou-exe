@@ -10,6 +10,7 @@ import About from "./pages/About"
 import FloatingMenu from "./components/FloatingMenu"
 import TerminalRedirect from "./components/TerminalRedirect"
 import NetworkModal from "./components/NetworkModal"
+import AgeGate from "./components/AgeGate" 
 
 const App = () => {
   const [networkOpen, setNetworkOpen] = useState(false)
@@ -17,6 +18,7 @@ const App = () => {
   return (
     <Router>
       <div className="relative min-h-screen bg-black text-white font-mono">
+        <AgeGate /> 
         <FloatingMenu />
 
         {/* Bouton d’ouverture du Network */}

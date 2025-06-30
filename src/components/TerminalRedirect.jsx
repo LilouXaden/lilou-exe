@@ -28,7 +28,7 @@ const TerminalRedirect = () => {
         window.__inactivityTimeout = setTimeout(() => {
           setShowTerminal(true);
           setAutoTriggered(true); // Only auto-open once
-        }, 10000);
+        }, 20000);
       }
     };
 
