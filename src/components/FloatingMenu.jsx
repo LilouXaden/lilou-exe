@@ -1,6 +1,6 @@
 // FloatingMenu.jsx
 import { Link, useLocation } from "react-router-dom"
-import { TerminalSquare, Film, Settings2, HandCoins } from "lucide-react"
+import { TerminalSquare, Film, Settings2, HandCoins, User2 } from "lucide-react"
 
 const FloatingMenu = () => {
   const location = useLocation()
@@ -10,6 +10,7 @@ const FloatingMenu = () => {
     { to: "/select", icon: <Settings2 size={20} />, label: "Select" },
     { to: "/vault", icon: <Film size={20} />, label: "Vault" },
     { to: "/support", icon: <HandCoins size={20} />, label: "Support" },
+    { to: "/about", icon: <User2 size={20} />, label: "About" },
   ]
 
   return (

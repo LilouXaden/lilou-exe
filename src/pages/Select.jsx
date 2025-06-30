@@ -44,7 +44,7 @@ const SelectPage = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400" style={{paddingBottom:"60px"}}>
+    <div className="bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400" style={{padding:"100px 20px 300px 20px"}}>
 
     <div className="min-h-screen text-white font-mono pb-32 relative mx-auto" style={{ maxWidth: "800px" }}>
 

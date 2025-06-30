@@ -1,14 +1,19 @@
 [
   {
-    "timestamp": "2025-06-29T18:23:00",
-    "operator": "X255",
-    "credits": 5,
-    "target": "Protocol Scream.exe"
+    "name": "Xaden",
+    "amount": 40,
+    "date": "2025-06-22",
+    "message": "Push her deeper."
   },
   {
-    "timestamp": "2025-06-29T19:10:00",
-    "operator": "X009",
-    "credits": 10,
-    "target": "Outfit: Void Harness"
+    "name": "Alpha23",
+    "amount": 25,
+    "date": "2025-06-27"
+  },
+  {
+    "name": "BetaLoop",
+    "amount": 35,
+    "date": "2025-06-28",
+    "message": "Activate greenscreen. I want a space lab scene!"
   }
 ]

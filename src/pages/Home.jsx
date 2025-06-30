@@ -42,7 +42,8 @@ export default function Home() {
   }, [charIndex, lineIndex]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400 flex flex-col items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400 flex flex-col items-center justify-center px-4 py-10"
+    style={{padding:"100px 20px 300px 20px"}}>
       {/* Lilou image with scan effect */}
       <div className="relative mb-10">
         <img
@@ -55,7 +56,7 @@ export default function Home() {
 
       {/* Terminal box */}
       <div className="w-full max-w-2xl bg-[#100010] border border-pink-600 rounded-xl p-6 shadow-xl font-mono text-sm leading-relaxed text-pink-300">
-        <div className="min-h-[300px]">
+        <div className="min-h-[200px]">
           {lines.map((line, idx) => (
             <p key={idx} className="whitespace-pre-wrap">{line}</p>
           ))}

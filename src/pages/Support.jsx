@@ -1,89 +1,98 @@
 import { useEffect, useState } from "react"
+import systemsData from "../data/systems.json"
+import opsLog from "../data/ops.json"
 
-const Support = () => {
-  const [systems, setSystems] = useState([])
-  const [ops, setOps] = useState([])
+export default function Support() {
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
-    // Chargement local de données simulées (remplace par fetch si besoin)
-    import("../data/systems.json").then((mod) => setSystems(mod.default))
-    import("../data/ops.json").then((mod) => setOps(mod.default))
+    const sum = opsLog.reduce((acc, op) => acc + op.amount, 0)
+    setTotal(sum)
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0010] to-black text-pink-400 font-mono px-4 py-10">
-      <h1 className="text-center text-4xl mb-10">
-        <span className="text-pink-300">$</span> SYSTEM STATUS // Lilou.exe
-      </h1>
+    <div className="min-h-screen bg-black text-white px-6 py-12 font-mono" style={{padding:"100px 20px 300px 20px"}}>
+      {/* HEADER */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl text-cyan-400 font-bold mb-4">/SUPPORT LILOU.EXE</h1>
+        <p className="text-gray-400 text-sm max-w-xl mx-auto mb-6">
+          I have a mind full of ideas and fantasies, but not always the funds to bring them to life.
+          With your help, each protocol upgrade becomes possible. Your support directly expands
+          the capacities of Lilou.exe.
+        </p>
+        <a
+          href="https://ko-fi.com/lilou_exe"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-6 py-3 rounded-full transition shadow-lg"
+        >
+          ⚡ Inject Core Energy
+        </a>
+        <div className="mt-3 text-sm text-gray-500">
+          Total injected: <span className="text-cyan-300 font-bold">{total}€</span>
+        </div>
+      </div>
 
-      {/* Stretch Goals */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {systems.map((sys) => {
-          const progress = Math.min(100, (sys.current / sys.goal) * 100)
-          const filled = progress >= 100
+      {/* TIMELINE */}
+      <div className="relative max-w-2xl mx-auto border-l-2 border-cyan-700 pl-6 mb-20">
+        {systemsData.map((sys, index) => {
+          const previousGoal = index === 0 ? 0 : systemsData[index - 1].goal
+          const isUnlocked = total >= previousGoal
+          const progress = isUnlocked
+            ? Math.min(100, ((total - previousGoal) / (sys.goal - previousGoal)) * 100)
+            : 0
 
           return (
-            <div key={sys.id} className="bg-[#0f0f0f] border border-pink-700 rounded-2xl p-4 shadow-md hover:scale-[1.01] transition">
-              <img src={sys.image} alt={sys.name} className="w-full h-40 object-cover rounded-xl mb-4" />
-
-              <h2 className="text-xl text-pink-300 mb-1">{sys.name}</h2>
-              <p className="text-sm text-gray-300 mb-3">{sys.description}</p>
-
-              <div className="w-full bg-gray-800 rounded-full h-3 mb-2">
-                <div className={`h-3 rounded-full ${filled ? 'bg-gray-400' : 'bg-pink-400'}`} style={{ width: `${progress}%` }}></div>
-              </div>
-
-              <div className="text-xs text-gray-500 mb-3">
-                {sys.current}€ / {sys.goal}€ — {Math.floor(progress)}%
-              </div>
-
-              {!filled && (
-                <a
-                  href={sys.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-center bg-pink-500 hover:bg-pink-400 text-black font-bold py-2 px-4 rounded-xl transition"
-                >
-                  Inject Credits
-                </a>
-              )}
-              {filled && (
-                <div className="text-center text-gray-400 text-sm mt-2">
-                  ✅ Protocol fully integrated
+            <div key={sys.id} className="relative pb-16">
+              {/* Timeline Node */}
+              <div
+                className={`absolute -left-[37px] top-0 w-6 h-6 rounded-full border-2 ${
+                  progress === 100 ? "bg-cyan-400 border-cyan-200" : "bg-black border-cyan-600"
+                }`} 
+              />
+              {/* Content */}
+              <div>
+                <h3 className="text-lg text-cyan-300 font-semibold">
+                  {sys.version || `v1.${index}`} — {sys.name}
+                </h3>
+                <p className="text-sm text-gray-300 mb-2">{sys.description}</p>
+                <div className="w-full bg-gray-800 rounded-full h-2 mb-1">
+                  <div
+                    className="bg-cyan-400 h-2 rounded-full transition-all duration-700"
+                    style={{ width: `${progress}%` }}
+                  />
                 </div>
-              )}
+                <div className="text-xs text-gray-500 mb-1">
+                  {Math.min(total, sys.goal)} / {sys.goal}€ injected
+                </div>
+              </div>
             </div>
           )
         })}
       </div>
 
-      {/* Divider */}
-      <div className="border-t border-pink-800 my-12"></div>
-
-      {/* Operator Log */}
-      <div className="max-w-3xl mx-auto bg-[#0a0a0a] border border-pink-800 rounded-xl p-6 shadow-inner">
-        <h2 className="text-xl text-pink-300 mb-4">/OPS.LOG</h2>
-        <div className="text-sm text-gray-300 whitespace-pre-wrap max-h-96 overflow-y-auto">
-          {ops.length === 0 ? (
-            <p className="text-gray-600">Awaiting operator activity...</p>
-          ) : (
-            ops.map((entry, idx) => (
+      {/* OPERATOR LOG */}
+      <div className="max-w-xl mx-auto mt-12">
+        <h2 className="text-2xl text-purple-400 mb-4">/ops.log</h2>
+        <div className="bg-[#0c0c0c] rounded-xl p-4 border border-purple-800 text-sm space-y-4 max-h-[300px] overflow-y-auto">
+          {opsLog
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((op, idx) => (
               <div key={idx}>
-                <span className="text-gray-500">[{new Date(entry.timestamp).toLocaleString()}]</span>{" "}
-                Operator <span className="text-pink-400">{entry.operator}</span> injected{" "}
-                <span className="text-white">{entry.credits} credits</span> toward{" "}
-                <span className="text-purple-400">{entry.target}</span>
+                <div className="flex justify-between text-cyan-300 font-semibold">
+                  <span>Operator {op.name}</span>
+                  <span>{op.amount}€</span>
+                </div>
+                <div className="text-gray-500 text-xs">
+                  {new Date(op.date).toLocaleDateString()}
+                </div>
+                {op.message && (
+                  <div className="text-purple-300 text-xs mt-1 italic">"{op.message}"</div>
+                )}
               </div>
-            ))
-          )}
+            ))}
         </div>
       </div>
-
-      <p className="text-center text-xs text-gray-500 mt-8 italic">
-        All injections fuel the evolution of Lilou.exe. Operator data is anonymized. Terminal logs are reset periodically.
-      </p>
     </div>
   )
 }
-
-export default Support

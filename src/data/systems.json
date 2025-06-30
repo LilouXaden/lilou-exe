@@ -1,18 +1,26 @@
 [
   {
-    "id": "deep_plugging",
-    "name": "Deep Plugging Protocol",
-    "description": "Unlocks depth calibration and sub-silent audio response.",
-    "goal": 120,
-    "current": 97,
-    "image": "/systems/deep_plugging.png"
+    "id": "hd_cam",
+    "name": "High-Resolution Vision Unit",
+    "description": "Unlocks 4K visual fidelity, smoother POV experience and better detail capture.",
+    "goal": 180,
+    "version": "v1.0",
+    "image": "/systems/hd_cam.jpg"
   },
   {
-    "id": "mirror_feedback",
-    "name": "Mirror Feedback Loop",
-    "description": "Unlocks dual POV loop with emotional feedback.",
-    "goal": 90,
-    "current": 22,
-    "image": "/systems/mirror_feedback.jpg"
+    "id": "greenscreen_lab",
+    "name": "Greenscreen Simulation Lab",
+    "description": "Enable holo-backgrounds, environmental transitions, and sci-fi dreamscapes.",
+    "goal": 350,
+    "version": "v1.1",
+    "image": "/systems/greenscreen.jpg"
+  },
+  {
+    "id": "neural_feedback",
+    "name": "Neural Feedback Matrix",
+    "description": "Advanced sensors for better performance & dynamic viewer interaction.",
+    "goal": 500,
+    "version": "v1.2",
+    "image": "/systems/neural_matrix.jpg"
   }
 ]
